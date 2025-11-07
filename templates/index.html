@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXP Patcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        .hint {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:active {
+            background-color: #3d8b40;
+        }
+        .error {
+            background-color: #f44336;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #333;
+        }
+        .info h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .info p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .info code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VXP Patcher</h1>
+        <p class="subtitle">Patch VXP files for MRE phones (Nokia 5310, 225, etc.)</p>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST" action="/patch" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="imsi">IMSI Number:</label>
+                <input type="text" id="imsi" name="imsi" maxlength="15" pattern="[0-9]{15}" required placeholder="Enter 15-digit IMSI">
+                <p class="hint">Your SIM card's IMSI number (15 digits)</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="vxp_file">VXP File:</label>
+                <input type="file" id="vxp_file" name="vxp_file" accept=".vxp" required>
+                <p class="hint">Select the .vxp file to patch</p>
+            </div>
+            
+            <button type="submit">Patch!</button>
+        </form>
+        
+        <div class="info">
+            <h3>How to find your IMSI:</h3>
+            <p><strong>On Android:</strong></p>
+            <p>1. Insert SIM into Android phone</p>
+            <p>2. Settings → About phone → Status → IMSI</p>
+            <p>OR use ADB command:</p>
+            <p><code>adb shell service call iphonesubinfo 1</code></p>
+            
+            <p style="margin-top: 15px;"><strong>Note:</strong> The patched VXP will only work on phones with the specified IMSI (your SIM card).</p>
+        </div>
+    </div>
+</body>
+</html>
