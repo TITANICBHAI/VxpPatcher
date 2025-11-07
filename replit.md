@@ -9,15 +9,20 @@ A server-side VXP patcher web application that patches MediaTek MRE VXP files wi
 - **Deployment Target:** Render (via Dockerfile)
 
 ## Recent Changes
-- November 7, 2025: Initial project setup
+- November 7, 2025: Initial project setup and deployment preparation
   - Implemented VXP binary parsing and IMSI patching logic
   - Created Flask web server with file upload handling
-  - Built feature-phone-compatible HTML interface
-  - Added Dockerfile for Render deployment
+  - Built feature-phone-compatible HTML interface (no JavaScript)
+  - Added Dockerfile with dynamic PORT support for Render
   - Fixed critical ELF header parsing bug (e_shentsize/e_shnum offsets)
   - Added render.yaml for one-click Blueprint deployment
   - Configured production timeouts (300s request, 16MB file limit)
   - Verified implementation with architect - production ready
+  - Added comprehensive IMSI finding instructions (4 methods)
+  - Added privacy warning about IMSI misuse
+  - Tested VXP patching with real ELF binary - verified working
+  - Created DEPLOY.md with complete deployment instructions
+  - Ready for one-click deployment to Render
 
 ## Project Architecture
 
