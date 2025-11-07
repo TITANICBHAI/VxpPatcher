@@ -108,6 +108,29 @@
             border-radius: 3px;
             font-family: monospace;
         }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #333;
+        }
+        .warning strong {
+            color: #f57c00;
+        }
+        .method {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        .method-title {
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -135,15 +158,40 @@
             <button type="submit">Patch!</button>
         </form>
         
+        <div class="warning">
+            <p><strong>Privacy Warning:</strong> Your IMSI is a unique identifier tied to your SIM card. Never share it with untrusted parties as it can be used to track your location or identity. This tool processes files locally and does not store your IMSI.</p>
+        </div>
+        
         <div class="info">
-            <h3>How to find your IMSI:</h3>
-            <p><strong>On Android:</strong></p>
-            <p>1. Insert SIM into Android phone</p>
-            <p>2. Settings → About phone → Status → IMSI</p>
-            <p>OR use ADB command:</p>
-            <p><code>adb shell service call iphonesubinfo 1</code></p>
+            <h3>How to find your IMSI number:</h3>
             
-            <p style="margin-top: 15px;"><strong>Note:</strong> The patched VXP will only work on phones with the specified IMSI (your SIM card).</p>
+            <div class="method">
+                <div class="method-title">Method 1: Android Phone Settings</div>
+                <p>1. Insert SIM into Android phone</p>
+                <p>2. Go to: Settings → About phone → Status → IMSI</p>
+                <p>3. Copy the 15-digit number</p>
+            </div>
+            
+            <div class="method">
+                <div class="method-title">Method 2: Using ADB (Android Debug Bridge)</div>
+                <p>Connect phone to computer and run:</p>
+                <p><code>adb shell service call iphonesubinfo 1</code></p>
+                <p>Then extract the 15-digit IMSI from the output</p>
+            </div>
+            
+            <div class="method">
+                <div class="method-title">Method 3: Dial Code (Some Devices)</div>
+                <p>Try dialing: <code>*#06#</code> or <code>*#*#4636#*#*</code></p>
+                <p>Look for "IMSI" in the device info (not all phones support this)</p>
+            </div>
+            
+            <div class="method">
+                <div class="method-title">Method 4: SIM Card Reader Apps</div>
+                <p>Install a SIM info app from Google Play Store</p>
+                <p>Examples: "SIM Card Info" or "Phone and SIM Info"</p>
+            </div>
+            
+            <p style="margin-top: 15px;"><strong>Note:</strong> The patched VXP will only work on phones using the SIM card with this IMSI number. Browsers cannot automatically read IMSI for security reasons.</p>
         </div>
     </div>
 </body>
