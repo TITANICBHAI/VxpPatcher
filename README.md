@@ -48,6 +48,15 @@ docker run -p 5000:5000 vxp-patcher
 
 ### Deploy on Render
 
+**Option 1: Using render.yaml (Recommended - One-Click Deploy)**
+1. Push this repository to GitHub
+2. Go to [Render Dashboard](https://dashboard.render.com/)
+3. Click "New +" → "Blueprint"
+4. Connect your GitHub repository
+5. Render will automatically detect `render.yaml` and configure everything
+6. Click "Apply" to deploy
+
+**Option 2: Manual Setup**
 1. Push this repository to GitHub
 2. Go to [Render Dashboard](https://dashboard.render.com/)
 3. Click "New +" → "Web Service"
@@ -57,10 +66,17 @@ docker run -p 5000:5000 vxp-patcher
 
 Render will build and deploy your application automatically!
 
-## Environment Variables
+## Configuration
+
+### Timeouts
+- Request timeout: 300 seconds (5 minutes) - handles slow uploads/downloads
+- File size limit: 16MB maximum
+- Keep-alive: 5 seconds for persistent connections
+
+### Environment Variables
 
 - `PORT` - Server port (default: 5000)
-- `SESSION_SECRET` - Flask session secret (set for production)
+- `SESSION_SECRET` - Flask session secret (auto-generated on Render)
 
 ## Supported Phones
 

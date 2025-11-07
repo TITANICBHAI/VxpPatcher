@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vxp-patcher
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PORT
+        value: 5000

@@ -14,6 +14,10 @@ A server-side VXP patcher web application that patches MediaTek MRE VXP files wi
   - Created Flask web server with file upload handling
   - Built feature-phone-compatible HTML interface
   - Added Dockerfile for Render deployment
+  - Fixed critical ELF header parsing bug (e_shentsize/e_shnum offsets)
+  - Added render.yaml for one-click Blueprint deployment
+  - Configured production timeouts (300s request, 16MB file limit)
+  - Verified implementation with architect - production ready
 
 ## Project Architecture
 
