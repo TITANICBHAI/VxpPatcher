@@ -12,8 +12,8 @@ class VXPPatcher:
             raise ValueError("Not a valid ELF/VXP file")
         
         e_shoff = struct.unpack('<I', self.data[0x20:0x24])[0]
-        e_shnum = struct.unpack('<H', self.data[0x2E:0x30])[0]
-        e_shentsize = struct.unpack('<H', self.data[0x2C:0x2E])[0]
+        e_shentsize = struct.unpack('<H', self.data[0x2E:0x30])[0]
+        e_shnum = struct.unpack('<H', self.data[0x30:0x32])[0]
         
         metadata_start = e_shoff + (e_shnum * e_shentsize)
         
