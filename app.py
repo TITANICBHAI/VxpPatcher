@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, send_file, flash, redirect, url_for
+from flask import Flask, request, render_template, send_file
 from werkzeug.utils import secure_filename
 from vxp_patcher import VXPPatcher
 import io

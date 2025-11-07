@@ -78,12 +78,45 @@
         button:active {
             background-color: #3d8b40;
         }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
         .error {
             background-color: #f44336;
             color: white;
             padding: 12px;
             border-radius: 4px;
             margin-bottom: 20px;
+        }
+        .success {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .no-js .loading {
+            display: none !important;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .info {
             background-color: #e3f2fd;
@@ -142,7 +175,12 @@
         <div class="error">{{ error }}</div>
         {% endif %}
         
-        <form method="POST" action="/patch" enctype="multipart/form-data">
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Processing your VXP file... Please wait.</p>
+        </div>
+        
+        <form method="POST" action="/patch" enctype="multipart/form-data" id="patchForm">
             <div class="form-group">
                 <label for="imsi">IMSI Number:</label>
                 <input type="text" id="imsi" name="imsi" maxlength="15" pattern="[0-9]{15}" required placeholder="Enter 15-digit IMSI">
@@ -194,5 +232,71 @@
             <p style="margin-top: 15px;"><strong>Note:</strong> The patched VXP will only work on phones using the SIM card with this IMSI number. Browsers cannot automatically read IMSI for security reasons.</p>
         </div>
     </div>
+    
+    <script>
+        (function() {
+            var form = document.getElementById('patchForm');
+            if (form) {
+                var loadingIndicator = document.getElementById('loadingIndicator');
+                var submitButton = form.querySelector('button[type="submit"]');
+                var fileInput = document.getElementById('vxp_file');
+                var imsiInput = document.getElementById('imsi');
+                
+                if (fileInput.addEventListener) {
+                    fileInput.addEventListener('change', function() {
+                        var maxSize = 16 * 1024 * 1024;
+                        if (this.files && this.files[0] && this.files[0].size > maxSize) {
+                            alert('File is too large! Maximum size is 16MB.');
+                            this.value = '';
+                        }
+                    });
+                }
+                
+                if (imsiInput.addEventListener) {
+                    imsiInput.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                        if (this.value.length > 15) {
+                            this.value = this.value.slice(0, 15);
+                        }
+                    });
+                }
+                
+                if (form.addEventListener) {
+                    form.addEventListener('submit', function(e) {
+                        if (imsiInput.value.length !== 15) {
+                            e.preventDefault();
+                            alert('IMSI must be exactly 15 digits!');
+                            return false;
+                        }
+                        
+                        if (fileInput.files && !fileInput.files[0]) {
+                            e.preventDefault();
+                            alert('Please select a VXP file!');
+                            return false;
+                        }
+                        
+                        if (loadingIndicator) {
+                            loadingIndicator.style.display = 'block';
+                        }
+                        if (submitButton) {
+                            submitButton.disabled = true;
+                            submitButton.textContent = 'Processing...';
+                        }
+                        
+                        setTimeout(function() {
+                            if (loadingIndicator) {
+                                loadingIndicator.style.display = 'none';
+                            }
+                            if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.textContent = 'Patch!';
+                            }
+                            form.reset();
+                        }, 2000);
+                    });
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
